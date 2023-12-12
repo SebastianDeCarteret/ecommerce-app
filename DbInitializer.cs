@@ -1,66 +1,98 @@
 ﻿using EcommerceBackend.Data;
+using EcommerceBackend.Migrations;
 using EcommerceBackend.Models;
+using System.Drawing;
 
-namespace VinylDatabaseApi
+namespace EcommerceBackend
 {
     internal class DbInitializer
     {
-        internal static void Initialize(EcommerceBackendContext dbContext)
+        async internal static void Initialize(EcommerceBackendContext dbContext)
         {
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             //dbContext.AddRange(SeedData.SeedDataList);
             //dbContext.AddRange(SeedData.Bands);
             //dbContext.AddRange(SeedData.Artists);
+            await dbContext.AddRangeAsync([
+                new Category
+                {
+                    CategoryType = "test1",
+                },
+                new Category
+                {
+                    CategoryType = "test2",
+                }
+            ]);
 
-            dbContext.AddRange(new List<User>([
+            await dbContext.AddRangeAsync([new Product
+            {
+                Name = "test1",
+                Colour = "test1",
+                Description = "test1",
+                Price = 0f,
+                ImageUrl = "test"
+            },
+                new Product
+                {
+                    Name = "test2",
+                    Colour = "test2",
+                    Description = "test2",
+                    Price = 0f,
+                    ImageUrl = "test"
+                },
+                new Product
+                {
+                    Name = "test3",
+                    Colour = "test3",
+                    Description = "test3",
+                    Price = 0f,
+                    ImageUrl = "test"
+                }
+            ]);
+
+            await dbContext.AddRangeAsync([
                 new User
                 {
-                    FirstName = "test",
-                    LastName = "test",
+                    FirstName = "test1",
+                    LastName = "test1",
                     Username = "test",
                     Gender = "test",
                     Password = "test"
                 },
                 new User
                 {
-                    FirstName = "test",
-                    LastName = "test",
+                    FirstName = "test2",
+                    LastName = "test2",
                     Username = "test",
                     Gender = "test",
-                    Password = "test",
-                    //Basket = [new Product
-                    //{
-                    //    Name = "test",
-                    //    Colour = "test",
-                    //    Description = "test",
-                    //    Price = 0f,
-                    //    ImageUrl = "test",
-                    //    Category = new Category
-                    //    {
-                    //        CategoryType = "test",
-                    //    }
-                    //}]
+                    Password = "test"
                 }
 
-            ]));
-
-            dbContext.AddRange(new Product
-            {
-                Name = "test",
-                Colour = "test",
-                Description = "test",
-                Price = 0f,
-                ImageUrl = "test",
-                Category = new Category
-                {
-                    CategoryType = "test",
-                }
-            });
+            ]);
 
             dbContext.SaveChanges();
+
+
+
+            dbContext.User.Find(1).Basket.BasketItems.Add(dbContext.Product.Find(1));
+            dbContext.User.Find(1).Basket.BasketItems.Add(dbContext.Product.Find(2));
+            dbContext.User.Find(2).Basket.BasketItems.Add(dbContext.Product.Find(1));
+            dbContext.User.Find(2).Basket.BasketItems.Add(dbContext.Product.Find(2));
+            dbContext.SaveChanges();
+
+
+            dbContext.Product.Find(1).Category = dbContext.Category.Find(1);
+            dbContext.Product.Find(2).Category = dbContext.Category.Find(1);
+            dbContext.Product.Find(3).Category = dbContext.Category.Find(2);
+
+            //dbContext.Category.Find(1).Products.Add(dbContext.Product.Find(1));
+            //dbContext.Category.Find(1).Products.Add(dbContext.Product.Find(2));
+
+            dbContext.SaveChanges();
+
         }
     }
 }

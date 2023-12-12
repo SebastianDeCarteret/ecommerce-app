@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EcommerceBackend.Data;
+using EcommerceBackend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EcommerceBackend.Data;
-using EcommerceBackend.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcommerceBackend.Controllers
 {
@@ -25,14 +25,24 @@ namespace EcommerceBackend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
         {
-            return await _context.Product.ToListAsync();
+            var product = await _context.Product
+                .Include(product => product.Reviews)
+                .Include(product => product.Category)
+                .ToListAsync();
+
+            return product;
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            var _ = await _context.Product
+                .Include(product => product.Reviews)
+                .Include(product => product.Category)
+                .ToListAsync();
+
+            var product = _.Find(product => product.Id == id);
 
             if (product == null)
             {

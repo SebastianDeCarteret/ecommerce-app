@@ -11,8 +11,9 @@ namespace EcommerceBackend.Models
         public string Username { get; set; }
         public string Gender { get; set; }
         public string Password { get; set; }
-        public List<Product>? Basket { get; set; } = new();
-        public Order? Orders { get; set; } = new();
+        //public List<Product>? Basket { get; set; } = new();
+        public Basket? Basket { get; set; } = new();
+        public List<Order>? Orders { get; set; } = new();
         public bool IsLoggedIn { get; set; } = false;
     }
 }

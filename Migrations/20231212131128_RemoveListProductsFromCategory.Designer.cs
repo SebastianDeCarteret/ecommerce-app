@@ -4,6 +4,7 @@ using EcommerceBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceBackend.Migrations
 {
     [DbContext(typeof(EcommerceBackendContext))]
-    partial class EcommerceBackendContextModelSnapshot : ModelSnapshot
+    [Migration("20231212131128_RemoveListProductsFromCategory")]
+    partial class RemoveListProductsFromCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,25 +24,6 @@ namespace EcommerceBackend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("EcommerceBackend.Models.Basket", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Basket");
-                });
 
             modelBuilder.Entity("EcommerceBackend.Models.Category", b =>
                 {
@@ -53,7 +37,13 @@ namespace EcommerceBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("Category");
                 });
@@ -74,7 +64,8 @@ namespace EcommerceBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Order");
                 });
@@ -86,12 +77,6 @@ namespace EcommerceBackend.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("BasketId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Colour")
                         .IsRequired()
@@ -118,13 +103,14 @@ namespace EcommerceBackend.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("BasketId");
-
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Product");
                 });
@@ -194,39 +180,35 @@ namespace EcommerceBackend.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("EcommerceBackend.Models.Basket", b =>
+            modelBuilder.Entity("EcommerceBackend.Models.Category", b =>
                 {
-                    b.HasOne("EcommerceBackend.Models.User", null)
-                        .WithOne("Basket")
-                        .HasForeignKey("EcommerceBackend.Models.Basket", "UserId")
+                    b.HasOne("EcommerceBackend.Models.Product", "Product")
+                        .WithOne("Category")
+                        .HasForeignKey("EcommerceBackend.Models.Category", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("EcommerceBackend.Models.Order", b =>
                 {
                     b.HasOne("EcommerceBackend.Models.User", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId")
+                        .WithOne("Orders")
+                        .HasForeignKey("EcommerceBackend.Models.Order", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("EcommerceBackend.Models.Product", b =>
                 {
-                    b.HasOne("EcommerceBackend.Models.Basket", null)
-                        .WithMany("BasketItems")
-                        .HasForeignKey("BasketId");
-
-                    b.HasOne("EcommerceBackend.Models.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId");
-
                     b.HasOne("EcommerceBackend.Models.Order", null)
                         .WithMany("Products")
                         .HasForeignKey("OrderId");
 
-                    b.Navigation("Category");
+                    b.HasOne("EcommerceBackend.Models.User", null)
+                        .WithMany("Basket")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("EcommerceBackend.Models.Review", b =>
@@ -238,16 +220,6 @@ namespace EcommerceBackend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EcommerceBackend.Models.Basket", b =>
-                {
-                    b.Navigation("BasketItems");
-                });
-
-            modelBuilder.Entity("EcommerceBackend.Models.Category", b =>
-                {
-                    b.Navigation("Products");
-                });
-
             modelBuilder.Entity("EcommerceBackend.Models.Order", b =>
                 {
                     b.Navigation("Products");
@@ -255,6 +227,9 @@ namespace EcommerceBackend.Migrations
 
             modelBuilder.Entity("EcommerceBackend.Models.Product", b =>
                 {
+                    b.Navigation("Category")
+                        .IsRequired();
+
                     b.Navigation("Reviews");
                 });
 

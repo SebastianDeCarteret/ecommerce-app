@@ -3,7 +3,6 @@ using EcommerceBackend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Mono.TextTemplating;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,42 +25,21 @@ namespace EcommerceBackend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
-            return await _context.User.Include(user => user.Basket).ToListAsync();
+            return await _context.User
+                .Include(user => user.Basket)
+                .Include(user => user.Orders)
+                .ToListAsync();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int userId)
+        public async Task<ActionResult<User>> GetUser(int id)
         {
-            var _ = await _context.User.Include(user => user.Basket).ToListAsync();
-            var user = _.Find(user => user.Id == userId);
-
-            //_context.User.Find(userId).Basket.Add(new Product
-            //{
-            //    Name = "test",
-            //    Colour = "test",
-            //    Description = "test",
-            //    Price = 0f,
-            //    ImageUrl = "test",
-            //    Category = new Category
-            //    {
-            //        CategoryType = "test",
-            //    }
-            //});
-
-            //user.Basket.Add(new Product
-            //{
-            //    Name = "test",
-            //    Colour = "test",
-            //    Description = "test",
-            //    Price = 0f,
-            //    ImageUrl = "test",
-            //    Category = new Category
-            //    {
-            //        CategoryType = "test",
-            //    }
-            //});
-            //await _context.SaveChangesAsync();
+            var _ = await _context.User
+                .Include(user => user.Basket)
+                .Include(user => user.Orders)
+                .ToListAsync();
+            var user = _.Find(user => user.Id == id);
 
             if (user == null)
             {
@@ -73,33 +51,31 @@ namespace EcommerceBackend.Controllers
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{userId}/{productId}")]
-        public async Task<IActionResult> PutUser(int userId, int productId)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutUser(int id, User user)
         {
-            //if (id != user.Id)
-            //{
-            //    return BadRequest();
-            //}
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
 
-            //_context.Entry(user).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
 
-            //try
-            //{
-            //    await _context.SaveChangesAsync();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!UserExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-
-            _context.User.Find(userId).Basket.Add(_context.Product.Find(productId));
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return NoContent();
         }

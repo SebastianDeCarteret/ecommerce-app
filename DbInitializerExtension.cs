@@ -1,6 +1,6 @@
 ﻿using EcommerceBackend.Data;
 
-namespace VinylDatabaseApi
+namespace EcommerceBackend
 {
     internal static class DbInitializerExtension
     {

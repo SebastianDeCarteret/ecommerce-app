@@ -1,7 +1,7 @@
-﻿using EcommerceBackend.Data;
+﻿using EcommerceBackend;
+using EcommerceBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using VinylDatabaseApi;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<EcommerceBackendContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EcommerceBackendContext") ?? throw new InvalidOperationException("Connection string 'EcommerceBackendContext' not found.")));

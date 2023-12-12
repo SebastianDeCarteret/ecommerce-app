@@ -4,6 +4,7 @@ using EcommerceBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceBackend.Migrations
 {
     [DbContext(typeof(EcommerceBackendContext))]
-    partial class EcommerceBackendContextModelSnapshot : ModelSnapshot
+    [Migration("20231212130147_ChangeRelatioalEnds")]
+    partial class ChangeRelatioalEnds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,25 +24,6 @@ namespace EcommerceBackend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("EcommerceBackend.Models.Basket", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Basket");
-                });
 
             modelBuilder.Entity("EcommerceBackend.Models.Category", b =>
                 {
@@ -74,7 +58,8 @@ namespace EcommerceBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Order");
                 });
@@ -87,10 +72,7 @@ namespace EcommerceBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BasketId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Colour")
@@ -118,13 +100,17 @@ namespace EcommerceBackend.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("BasketId");
-
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CategoryId")
+                        .IsUnique();
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Product");
                 });
@@ -194,37 +180,30 @@ namespace EcommerceBackend.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("EcommerceBackend.Models.Basket", b =>
-                {
-                    b.HasOne("EcommerceBackend.Models.User", null)
-                        .WithOne("Basket")
-                        .HasForeignKey("EcommerceBackend.Models.Basket", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EcommerceBackend.Models.Order", b =>
                 {
                     b.HasOne("EcommerceBackend.Models.User", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId")
+                        .WithOne("Orders")
+                        .HasForeignKey("EcommerceBackend.Models.Order", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("EcommerceBackend.Models.Product", b =>
                 {
-                    b.HasOne("EcommerceBackend.Models.Basket", null)
-                        .WithMany("BasketItems")
-                        .HasForeignKey("BasketId");
-
                     b.HasOne("EcommerceBackend.Models.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .WithOne("Products")
+                        .HasForeignKey("EcommerceBackend.Models.Product", "CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("EcommerceBackend.Models.Order", null)
                         .WithMany("Products")
                         .HasForeignKey("OrderId");
+
+                    b.HasOne("EcommerceBackend.Models.User", null)
+                        .WithMany("Basket")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Category");
                 });
@@ -238,14 +217,10 @@ namespace EcommerceBackend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EcommerceBackend.Models.Basket", b =>
-                {
-                    b.Navigation("BasketItems");
-                });
-
             modelBuilder.Entity("EcommerceBackend.Models.Category", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Products")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EcommerceBackend.Models.Order", b =>
