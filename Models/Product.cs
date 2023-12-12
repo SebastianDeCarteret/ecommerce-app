@@ -25,8 +25,8 @@ namespace EcommerceBackend.Models
 
         [Required]
         public string ImageUrl { get; set; }
-        public List<Review>? Reviews { get; set; }
-        public Category? Category { get; set; } = null!;
+        public List<Review>? Reviews { get; set; } = new();
+        public Category? Category { get; set; }
 
         //public List<Basket> Baskets { get; set; } = new();
     }
