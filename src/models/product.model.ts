@@ -11,6 +11,6 @@ export interface Product {
   isInStock: boolean;
   imageUrl: string;
   reviews: Review[];
-  category: Category | null;
-  baskets: Basket | null;
+  category: Category;
+  baskets: Basket;
 }
