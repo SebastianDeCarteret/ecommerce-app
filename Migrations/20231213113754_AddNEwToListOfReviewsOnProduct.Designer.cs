@@ -4,6 +4,7 @@ using EcommerceBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceBackend.Migrations
 {
     [DbContext(typeof(EcommerceBackendContext))]
-    partial class EcommerceBackendContextModelSnapshot : ModelSnapshot
+    [Migration("20231213113754_AddNEwToListOfReviewsOnProduct")]
+    partial class AddNEwToListOfReviewsOnProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,7 +260,7 @@ namespace EcommerceBackend.Migrations
 
             modelBuilder.Entity("EcommerceBackend.Models.Review", b =>
                 {
-                    b.HasOne("EcommerceBackend.Models.Product", "Product")
+                    b.HasOne("EcommerceBackend.Models.Product", null)
                         .WithMany("Reviews")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -268,8 +271,6 @@ namespace EcommerceBackend.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
