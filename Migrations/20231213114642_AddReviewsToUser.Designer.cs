@@ -4,6 +4,7 @@ using EcommerceBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceBackend.Migrations
 {
     [DbContext(typeof(EcommerceBackendContext))]
-    partial class EcommerceBackendContextModelSnapshot : ModelSnapshot
+    [Migration("20231213114642_AddReviewsToUser")]
+    partial class AddReviewsToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -264,7 +267,7 @@ namespace EcommerceBackend.Migrations
                         .IsRequired();
 
                     b.HasOne("EcommerceBackend.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -295,6 +298,8 @@ namespace EcommerceBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("Orders");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

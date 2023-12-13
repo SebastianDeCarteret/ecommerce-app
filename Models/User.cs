@@ -14,6 +14,8 @@ namespace EcommerceBackend.Models
         //public List<Product>? Basket { get; set; } = new();
         public Basket Basket { get; set; } = new();
         public List<Order>? Orders { get; set; } = new();
+
+        //public List<Review>? Reviews { get; set; }
         public bool IsLoggedIn { get; set; } = false;
     }
 }

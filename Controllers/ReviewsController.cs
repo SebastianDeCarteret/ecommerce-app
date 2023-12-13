@@ -27,6 +27,7 @@ namespace EcommerceBackend.Controllers
         {
             return await _context.Review
                 .Include(review => review.User)
+                .Include(review => review.Product)
                 .ToListAsync();
         }
 
@@ -36,6 +37,7 @@ namespace EcommerceBackend.Controllers
         {
             var _ = await _context.Review
                 .Include(review => review.User)
+                .Include(review => review.Product)
                 .ToListAsync();
             var review = _.Find(review => review.Id == reviewId);
 
@@ -49,15 +51,15 @@ namespace EcommerceBackend.Controllers
 
         // PUT: api/Reviews/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutReview(int id, Review review)
+        [HttpPut("{reviewId}")]
+        public async Task<IActionResult> PutReview(int reviewId, Review review)
         {
-            if (id != review.Id)
+            if (reviewId != review.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(review).State = EntityState.Modified;
+            _context.Review.Update(review);
 
             try
             {
@@ -65,7 +67,7 @@ namespace EcommerceBackend.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ReviewExists(id))
+                if (!ReviewExists(reviewId))
                 {
                     return NotFound();
                 }
@@ -80,10 +82,13 @@ namespace EcommerceBackend.Controllers
 
         // POST: api/Reviews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Review>> PostReview(Review review)
+        [HttpPost("{userId}/{productId}")]
+        public async Task<ActionResult<Review>> PostReview(Review review, int userId, int productId)
         {
-            _context.Review.Add(review);
+            var rev = _context.Review.Add(review);
+            rev.Entity.Product = _context.Product.Find(productId);
+            rev.Entity.User = _context.User.Find(userId);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetReview", new { id = review.Id }, review);
