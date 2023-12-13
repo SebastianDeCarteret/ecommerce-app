@@ -78,6 +78,19 @@ namespace EcommerceBackend.Controllers
             return NoContent();
         }
 
+        [HttpPatch("cat/{categoryId}/prod/{productId}")]
+        public async Task<ActionResult<Basket>> PatchCategory(int categoryId, int productId)
+        {
+            var _ = await _context.Category.Include(category => category.Products).ToListAsync();
+            var category = _.Find(category => category.Id == categoryId);
+
+            category.Products.Add(_context.Product.Find(productId));
+            await _context.SaveChangesAsync();
+
+            return StatusCode(StatusCodes.Status200OK);
+            //return CreatedAtAction("GetBasket", new { id = category.Id }, category);
+        }
+
         // POST: api/Categories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -93,7 +106,10 @@ namespace EcommerceBackend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            var category = await _context.Category.FindAsync(id);
+            var _ = await _context.Category.Include(category => category.Products).ToListAsync();
+            var category = _.Find(category => category.Id == id);
+
+            //var category = await _context.Category.FindAsync(id);
             if (category == null)
             {
                 return NotFound();

@@ -18,5 +18,6 @@ namespace EcommerceBackend.Data
         public DbSet<EcommerceBackend.Models.Product> Product { get; set; } = default!;
         public DbSet<EcommerceBackend.Models.Category> Category { get; set; } = default!;
         public DbSet<EcommerceBackend.Models.Basket> Basket { get; set; } = default!;
+        public DbSet<EcommerceBackend.Models.Review> Review { get; set; } = default!;
     }
 }
