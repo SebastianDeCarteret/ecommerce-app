@@ -27,6 +27,7 @@ namespace EcommerceBackend.Controllers
         {
             return await _context.User
                 .Include(user => user.Basket)
+                .Include(user => user.Basket.BasketItems)
                 .Include(user => user.Orders)
                 .ToListAsync();
         }

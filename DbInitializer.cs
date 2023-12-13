@@ -78,14 +78,21 @@ namespace EcommerceBackend
 
 
             dbContext.User.Find(1).Basket.BasketItems.Add(dbContext.Product.Find(1));
+            dbContext.SaveChanges();
             dbContext.User.Find(1).Basket.BasketItems.Add(dbContext.Product.Find(2));
+            dbContext.SaveChanges();
+            dbContext.User.Find(1).Basket.BasketItems.Add(dbContext.Product.Find(3));
+            dbContext.SaveChanges();
             dbContext.User.Find(2).Basket.BasketItems.Add(dbContext.Product.Find(1));
+            dbContext.SaveChanges();
             dbContext.User.Find(2).Basket.BasketItems.Add(dbContext.Product.Find(2));
             dbContext.SaveChanges();
 
 
             dbContext.Product.Find(1).Category = dbContext.Category.Find(1);
+            dbContext.SaveChanges();
             dbContext.Product.Find(2).Category = dbContext.Category.Find(1);
+            dbContext.SaveChanges();
             dbContext.Product.Find(3).Category = dbContext.Category.Find(2);
 
             //dbContext.Category.Find(1).Products.Add(dbContext.Product.Find(1));

@@ -28,6 +28,6 @@ namespace EcommerceBackend.Models
         public List<Review>? Reviews { get; set; } = new();
         public Category? Category { get; set; }
 
-        //public List<Basket> Baskets { get; set; } = new();
+        public List<Basket>? Baskets { get; set; } = new();
     }
 }
