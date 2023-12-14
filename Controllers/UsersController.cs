@@ -81,6 +81,25 @@ namespace EcommerceBackend.Controllers
             return NoContent();
         }
 
+        [HttpPatch("authenticate/username/{username}/password/{password}")]
+        public async Task<ActionResult<User>> AuthUser(string username, string password)
+        {
+            //var doesMatch = _context.User.ToList().Exists(user => user.Username == username && user.Password == password);
+            var user = _context.User.ToList().Find(user => user.Username == username && user.Password == password);
+
+            if (user != null)
+            {
+                //user.IsLoggedIn = true;
+                //await _context.SaveChangesAsync();
+                return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]

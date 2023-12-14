@@ -59,17 +59,17 @@ namespace EcommerceBackend
                 {
                     FirstName = "test1",
                     LastName = "test1",
-                    Username = "test",
+                    Username = "test1",
                     Gender = "test",
-                    Password = "test"
+                    Password = "test1"
                 },
                 new User
                 {
                     FirstName = "test2",
                     LastName = "test2",
-                    Username = "test",
+                    Username = "test2",
                     Gender = "test",
-                    Password = "test"
+                    Password = "test2"
                 }
 
             ]);
