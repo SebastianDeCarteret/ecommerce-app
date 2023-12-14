@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate, Link } from "react-router-dom";
 import { Product } from "../models/product.model";
 import DisplayProducts from "../components/products/DisplayProducts";
 
@@ -14,6 +14,7 @@ export default function Home() {
     <>
       <h1>Products</h1>
       <button onClick={() => routeChange()}>Users</button>
+
       <DisplayProducts products={products} />
     </>
   );
