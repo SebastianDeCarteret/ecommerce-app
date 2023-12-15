@@ -30,27 +30,27 @@ namespace EcommerceBackend
 
             await dbContext.AddRangeAsync([new Product
             {
-                Name = "test1",
-                Colour = "test1",
-                Description = "test1",
+                Name = "product1",
+                Colour = "black",
+                Description = "product1",
                 Price = 0f,
-                ImageUrl = "test"
+                ImageUrl = "https://picsum.photos/500/300?random=1"
             },
                 new Product
                 {
-                    Name = "test2",
-                    Colour = "test2",
-                    Description = "test2",
+                    Name = "product2",
+                    Colour = "black",
+                    Description = "product2",
                     Price = 0f,
-                    ImageUrl = "test"
+                    ImageUrl = "https://picsum.photos/500/300?random=1"
                 },
                 new Product
                 {
-                    Name = "test3",
-                    Colour = "test3",
-                    Description = "test3",
+                    Name = "product3",
+                    Colour = "black",
+                    Description = "product3",
                     Price = 0f,
-                    ImageUrl = "test"
+                    ImageUrl = "https://picsum.photos/500/300?random=1"
                 }
             ]);
 

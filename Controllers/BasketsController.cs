@@ -66,12 +66,12 @@ namespace EcommerceBackend.Controllers
         public async Task<IActionResult> DeleteBasket(int userId, int productId)
         {
 
-            var _ = await _context.User.Include(basket => basket.Basket).ToListAsync();
+            var _ = await _context.User.Include(basket => basket.Basket.BasketItems).ToListAsync();
             var basket = _.Find(basket => basket.Basket.UserId == userId).Basket;
 
             basket.BasketItems.Remove(_context.Product.Find(productId));
 
-            if (basket == null)
+            if (basket.BasketItems == null)
             {
                 return NotFound();
             }
