@@ -1,6 +1,7 @@
 import "./App.css";
 import "./components/products/Products.css";
 import "./components/login/Login.css";
+import "./components/basket/basket.css";
 import {
   Navigate,
   RouterProvider,
@@ -40,13 +41,17 @@ const routerFn = (
     },
     {
       path: "/products",
-      element: user ? <Home /> : <Navigate to="/" />,
+      element: user ? <Home setUser={setUser} /> : <Navigate to="/" />,
       errorElement: <ErrorPage />,
       loader: productsLoader,
     },
     {
       path: "/basket",
-      element: user ? <Basket /> : <Navigate to="/" />,
+      element: user ? (
+        <Basket setUser={setUser} userId={user.id} />
+      ) : (
+        <Navigate to="/" />
+      ),
       errorElement: <ErrorPage />,
       loader: user ? () => baksetLoader(user.id) : undefined,
     },

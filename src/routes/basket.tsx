@@ -1,12 +1,18 @@
 import { useLoaderData } from "react-router-dom";
 import { Basket } from "../models/basket.model";
 import BasketView from "../components/basket/BasketView";
+import { User } from "../models/user.model";
 
-export default function Basket() {
+interface Types {
+  userId: number;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+}
+
+export default function Basket({ userId, setUser }: Types) {
   const { basket }: any = useLoaderData();
   return (
     <>
-      <BasketView basket={basket} />
+      <BasketView setUser={setUser} userId={userId} basket={basket} />
     </>
   );
 }

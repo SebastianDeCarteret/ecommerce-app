@@ -1,12 +1,17 @@
 import { useLoaderData } from "react-router-dom";
 import { Product } from "../models/product.model";
 import DisplayProducts from "../components/products/DisplayProducts";
+import { User } from "../models/user.model";
 
-export default function Home() {
+interface Types {
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+}
+
+export default function Home({ setUser }: Types) {
   const { products }: any = useLoaderData();
   return (
     <>
-      <DisplayProducts products={products} />
+      <DisplayProducts setUser={setUser} products={products} />
     </>
   );
 }

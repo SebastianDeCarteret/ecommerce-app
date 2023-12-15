@@ -9,6 +9,7 @@ interface InputTypes {
 export default function LoginForm({ setUser }: InputTypes) {
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const [didFail, setDidFail] = useState<boolean>(false);
 
   async function Authenticate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -23,8 +24,10 @@ export default function LoginForm({ setUser }: InputTypes) {
     if (result.status === 201) {
       const user = await result.json();
       setUser(user as User);
+      setDidFail(false);
     } else {
       setUser(null);
+      setDidFail(true);
     }
   }
 
@@ -67,6 +70,11 @@ export default function LoginForm({ setUser }: InputTypes) {
           <button type="submit">Login</button>
         </Form>
       </div>
+      {didFail ? (
+        <p className="fail-message">please check username and password</p>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

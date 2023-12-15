@@ -42,13 +42,9 @@
       font-size: 15px;
     }
     button {
-      padding: 10px 20px;
-      border-radius: 15px;
-      background-color: rgb(255, 226, 255);
-      border-style: solid;
       border-color: rgb(0, 0, 0);
       width: -webkit-fill-available;
-      margin-top: 30px;
+      margin-top: 20px;
     }
   }
   .top-form-title {
@@ -63,4 +59,11 @@
     text-align: center;
     color: white;
   }
+}
+.fail-message {
+  background-color: rgb(255, 173, 173);
+  padding: 15px 20px;
+  border-radius: 15px;
+  color: rgb(104, 0, 0);
+  margin: 0;
 }

@@ -21,6 +21,9 @@ body {
   padding: 15px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .currys-logo {
     width: 75px;
     margin: 10px;
@@ -28,4 +31,13 @@ body {
   h1 {
     margin: 10px;
   }
+}
+
+button {
+  padding: 10px 15px;
+  border-radius: 15px;
+  border-style: solid;
+  background-color: rgb(255, 226, 255);
+  border-color: rgb(0, 0, 0);
+  margin: 5px;
 }
