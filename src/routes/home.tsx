@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate, Link } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { Product } from "../models/product.model";
 import DisplayProducts from "../components/products/DisplayProducts";
 

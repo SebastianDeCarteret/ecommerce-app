@@ -1,22 +1,17 @@
-import { Form, Navigate, useLoaderData } from "react-router-dom";
+import { Form } from "react-router-dom";
 import { User } from "../../models/user.model";
 import { useState } from "react";
 
 interface InputTypes {
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-export default function LoginForm({ setIsLoggedIn }: InputTypes) {
+export default function LoginForm({ setUser }: InputTypes) {
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
 
-  const { users }: any = useLoaderData();
-
   async function Authenticate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const userFound: User = users.find(
-      (user: User) => user.username === username && user.password === password
-    );
 
     const result = await fetch(
       `https://localhost:7218/api/Users/authenticate/username/${username}/password/${password}`,
@@ -26,9 +21,10 @@ export default function LoginForm({ setIsLoggedIn }: InputTypes) {
       }
     );
     if (result.status === 201) {
-      setIsLoggedIn(true);
+      const user = await result.json();
+      setUser(user as User);
     } else {
-      setIsLoggedIn(false);
+      setUser(null);
     }
   }
 
