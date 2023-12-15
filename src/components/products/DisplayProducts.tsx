@@ -8,13 +8,19 @@ interface InputTypes {
 export default function DisplayProducts({ products }: InputTypes) {
   return (
     <>
-      {products.map((product: Product, index) => {
-        return (
-          <div>
-            <SingleProduct index={index} product={product} />
-          </div>
-        );
-      })}
+      <header className="main-header">
+        <img
+          src="src\assets\currys.png"
+          alt="Currys Logo"
+          className="currys-logo"
+        />
+        <h1>All Products</h1>
+      </header>
+      <div className="products-container">
+        {products.map((product: Product, index) => {
+          return <SingleProduct index={index} product={product} />;
+        })}
+      </div>
     </>
   );
 }

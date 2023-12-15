@@ -2,7 +2,30 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+body {
+  margin: 0;
+}
+
 .loading-placeholder {
   font-size: 40px;
   text-align: center;
+}
+
+.currys-logo {
+  width: 75px;
+  margin: 10px;
+}
+
+.main-header {
+  background-color: rgb(212, 212, 212);
+  padding: 15px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  .currys-logo {
+    width: 75px;
+    margin: 10px;
+  }
+  h1 {
+    margin: 10px;
+  }
 }

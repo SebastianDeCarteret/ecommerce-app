@@ -3,18 +3,9 @@ import { Product } from "../models/product.model";
 import DisplayProducts from "../components/products/DisplayProducts";
 
 export default function Home() {
-  let navigate = useNavigate();
-  const routeChange = () => {
-    let path = `users`;
-    navigate(path);
-  };
-
   const { products }: any = useLoaderData();
   return (
     <>
-      <h1>Products</h1>
-      <button onClick={() => routeChange()}>Users</button>
-
       <DisplayProducts products={products} />
     </>
   );

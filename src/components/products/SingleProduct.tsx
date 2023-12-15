@@ -7,19 +7,14 @@ interface InputTypes {
 
 export default function SingleProduct({ product, index }: InputTypes) {
   return (
-    <div
-      className="single-product"
-      style={{
-        backgroundColor: "red",
-        margin: "10px",
-        padding: "10px",
-        borderRadius: "10px",
-      }}
-      key={index}
-    >
-      <h1>Name: {product.name}</h1>
-      <h1>Category: {product.category.categoryType}</h1>
-      <h1>Colour: {product.colour}</h1>
+    <div className="single-product-container" key={index}>
+      <h1>{product.name}</h1>
+      <img src={product.imageUrl} alt={product.name} />
+      <p>
+        colour:<span className="colour-circle"></span>
+      </p>
+
+      <h1>£{product.price}</h1>
     </div>
   );
 }
