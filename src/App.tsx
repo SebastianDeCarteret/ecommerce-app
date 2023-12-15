@@ -1,52 +1,65 @@
 import "./App.css";
 import "./components/products/Products.css";
 import "./components/login/Login.css";
+import "./components/basket/basket.css";
 import {
   Navigate,
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import Login, { loader as loginLoader } from "./routes/login";
+import Login from "./routes/login";
 import Home, { loader as productsLoader } from "./routes/home";
 import ErrorPage from "./error-page";
 import { useState } from "react";
+import { User } from "./models/user.model";
+import Basket, { loader as baksetLoader } from "./routes/basket";
 
 const routerFn = (
-  loggedIn: boolean,
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
+  user: User | null,
+  setUser: React.Dispatch<React.SetStateAction<User | null>>
 ) =>
   createBrowserRouter([
     {
       path: "/",
-      element: loggedIn ? (
+      element: user ? (
         <Navigate to="/products" replace={true} />
       ) : (
         <Navigate to="/login" replace={true} />
       ),
       errorElement: <ErrorPage />,
-      loader: loggedIn ? productsLoader : loginLoader,
+      loader: user ? productsLoader : undefined,
     },
     {
       path: "/login",
-      element: loggedIn ? (
+      element: user ? (
         <Navigate to="/" replace={true} />
       ) : (
-        <Login setIsLoggedIn={setIsLoggedIn} />
+        <Login setUser={setUser} />
       ),
       errorElement: <ErrorPage />,
-      loader: loggedIn ? productsLoader : loginLoader,
+      loader: user ? productsLoader : undefined,
     },
     {
       path: "/products",
-      element: loggedIn ? <Home /> : <Navigate to="/" />,
+      element: user ? <Home setUser={setUser} /> : <Navigate to="/" />,
       errorElement: <ErrorPage />,
       loader: productsLoader,
+    },
+    {
+      path: "/basket",
+      element: user ? (
+        <Basket setUser={setUser} userId={user.id} />
+      ) : (
+        <Navigate to="/" />
+      ),
+      errorElement: <ErrorPage />,
+      loader: user ? () => baksetLoader(user.id) : undefined,
     },
   ]);
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const routes = routerFn(isLoggedIn, setIsLoggedIn);
+  const [user, setUser] = useState<User | null>(null);
+  const routes = routerFn(user, setUser);
   return <RouterProvider router={routes} />;
 }
 

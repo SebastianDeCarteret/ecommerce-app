@@ -8,7 +8,7 @@ export interface User {
   username: string;
   gender: string;
   password: string;
-  Basket: Basket;
+  basket: Basket;
   orders: Order[];
   isLoggedIn: boolean;
 }

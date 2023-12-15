@@ -12,5 +12,5 @@ export interface Product {
   imageUrl: string;
   reviews: Review[];
   category: Category;
-  baskets: Basket;
+  baskets: Basket[];
 }
