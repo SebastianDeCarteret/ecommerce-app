@@ -18,6 +18,7 @@ body {
 
 button:hover {
   background-color: rgb(0, 0, 0);
+  border-color: black;
   color: white;
 }
 
@@ -40,16 +41,41 @@ button:hover {
     display: flex;
     justify-content: center;
     width: -webkit-fill-available;
-    button {
+    /* button {
       width: -webkit-fill-available;
       max-width: 300px;
-    }
+    } */
     .logout {
       max-width: fit-content;
       align-self: flex-end;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      img {
+        width: 30px;
+        padding: 5px;
+      }
+    }
+    .basket {
+      max-width: fit-content;
+      align-self: flex-end;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      img {
+        width: 30px;
+        padding: 5px;
+      }
+    }
+    .basket:hover {
+      background-color: rgb(108, 0, 208);
+      border-color: rgb(108, 0, 208);
     }
     .logout:hover {
       background-color: rgb(255, 0, 0);
+      border-color: rgb(255, 0, 0);
       color: rgb(255, 255, 255);
     }
   }
@@ -61,9 +87,10 @@ button {
   border-style: solid;
   background-color: rgb(255, 226, 255);
   border-color: rgb(0, 0, 0);
+  border-width: 3px;
   margin: 5px;
 }
 
 ::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  display: none;
 }

@@ -25,11 +25,7 @@ export default function BasketItem({ item, index, userId }: Types) {
       } else {
         setIsSucess(false);
       }
-      navigate("/basket");
-      navigate("/");
-      navigate("/basket");
-      navigate("/");
-      navigate("/basket");
+      navigate("");
     }, 1 * 1000);
   }
 
@@ -53,12 +49,15 @@ export default function BasketItem({ item, index, userId }: Types) {
           Remove from basket
         </button>
       </div>
-      <GreenSucess
-        state={isSucess}
-        setState={setIsSucess}
-        message={"Removed successfully!"}
-        time={2}
-      />
+      <span className="message-container">
+        <GreenSucess
+          shouldNavigateToBasket={false}
+          state={isSucess}
+          setState={setIsSucess}
+          message={"Removed successfully!"}
+          time={5}
+        />
+      </span>
     </>
   );
 }
