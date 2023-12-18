@@ -2,10 +2,6 @@ import { useState } from "react";
 import { Product } from "../../models/product.model";
 import { useNavigate } from "react-router-dom";
 import GreenSucess from "../reusable/GreenSucess";
-import {
-  findRenderedDOMComponentWithClass,
-  scryRenderedDOMComponentsWithClass,
-} from "react-dom/test-utils";
 
 interface Types {
   item: Product;
@@ -54,7 +50,7 @@ export default function BasketItem({ item, index, userId }: Types) {
           }}
           className="delete-button"
         >
-          🗑️
+          Remove from basket
         </button>
       </div>
       <GreenSucess

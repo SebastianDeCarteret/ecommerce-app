@@ -26,7 +26,9 @@ export default function DisplayProducts({
         <h1>All Products</h1>
         <div className="header-buttons-container">
           <button onClick={() => navigate("/basket")}>Basket</button>
-          <button onClick={() => setUser(null)}>Logout</button>
+          <button className="logout" onClick={() => setUser(null)}>
+            Logout
+          </button>
         </div>
       </header>
       <div className="products-container">

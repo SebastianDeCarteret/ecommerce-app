@@ -38,6 +38,10 @@
       background-color: rgb(255, 226, 255);
       text-align: center;
     }
+    input:hover {
+      outline-style: solid;
+      outline-color: black;
+    }
     span {
       font-size: 15px;
     }

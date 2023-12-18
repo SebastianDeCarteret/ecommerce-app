@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from "react";
-
 interface Types {
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   state: boolean;

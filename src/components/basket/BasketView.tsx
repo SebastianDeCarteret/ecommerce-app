@@ -22,7 +22,9 @@ export default function BasketView({ basket, userId, setUser }: Types) {
         <h1>Basket</h1>
         <div className="header-buttons-container">
           <button onClick={() => navigate("/products")}>Home</button>
-          <button onClick={() => setUser(null)}>Logout</button>
+          <button className="logout" onClick={() => setUser(null)}>
+            Logout
+          </button>
         </div>
       </header>
       <div className="basket-items-container">
