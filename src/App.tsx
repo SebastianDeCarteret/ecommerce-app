@@ -2,6 +2,7 @@ import "./App.css";
 import "./components/products/Products.css";
 import "./components/login/Login.css";
 import "./components/basket/basket.css";
+import "./components/reusable/Reusable.css";
 import {
   Navigate,
   RouterProvider,
@@ -41,7 +42,11 @@ const routerFn = (
     },
     {
       path: "/products",
-      element: user ? <Home setUser={setUser} /> : <Navigate to="/" />,
+      element: user ? (
+        <Home user={user} setUser={setUser} />
+      ) : (
+        <Navigate to="/" />
+      ),
       errorElement: <ErrorPage />,
       loader: productsLoader,
     },

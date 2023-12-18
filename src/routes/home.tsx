@@ -5,13 +5,14 @@ import { User } from "../models/user.model";
 
 interface Types {
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  user: User;
 }
 
-export default function Home({ setUser }: Types) {
+export default function Home({ setUser, user }: Types) {
   const { products }: any = useLoaderData();
   return (
     <>
-      <DisplayProducts setUser={setUser} products={products} />
+      <DisplayProducts user={user} setUser={setUser} products={products} />
     </>
   );
 }

@@ -20,8 +20,10 @@ export default function BasketView({ basket, userId, setUser }: Types) {
           className="currys-logo"
         />
         <h1>Basket</h1>
-        <button onClick={() => navigate("/products")}>Home</button>
-        <button onClick={() => setUser(null)}>Logout</button>
+        <div className="header-buttons-container">
+          <button onClick={() => navigate("/products")}>Home</button>
+          <button onClick={() => setUser(null)}>Logout</button>
+        </div>
       </header>
       <div className="basket-items-container">
         {basket?.basketItems.length != 0 ? (
