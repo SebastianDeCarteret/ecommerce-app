@@ -33,23 +33,23 @@ namespace EcommerceBackend
                 Name = "product1",
                 Colour = "black",
                 Description = "product1",
-                Price = 0f,
+                Price = 10.99f,
                 ImageUrl = "https://picsum.photos/500/300?random=1"
             },
                 new Product
                 {
                     Name = "product2",
-                    Colour = "black",
+                    Colour = "silver",
                     Description = "product2",
-                    Price = 0f,
+                    Price = 8.99f,
                     ImageUrl = "https://picsum.photos/500/300?random=1"
                 },
                 new Product
                 {
                     Name = "product3",
-                    Colour = "black",
+                    Colour = "grey",
                     Description = "product3",
-                    Price = 0f,
+                    Price = 109.99f,
                     ImageUrl = "https://picsum.photos/500/300?random=1"
                 }
             ]);

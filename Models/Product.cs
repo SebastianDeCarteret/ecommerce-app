@@ -20,8 +20,7 @@ namespace EcommerceBackend.Models
         [Required]
         public string Description { get; set; }
 
-        [Required]
-        public bool IsInStock { get; set; }
+        public bool? IsInStock { get; set; } = true;
 
         [Required]
         public string ImageUrl { get; set; }
