@@ -18,7 +18,7 @@ export default function ProductView({ product, setUser, user }: Types) {
 
   async function AddToBasket() {
     const response = fetch(
-      `https://localhost:7218/api/Baskets/${user.id}/${product?.id}`,
+      `https://localhost:7218/api/Baskets/${user?.id}/${product?.id}`,
       {
         method: "PATCH",
       }
