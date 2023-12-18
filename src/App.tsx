@@ -3,6 +3,7 @@ import "./components/products/Products.css";
 import "./components/login/Login.css";
 import "./components/basket/basket.css";
 import "./components/reusable/Reusable.css";
+import "./components/product/Product.css";
 import {
   Navigate,
   RouterProvider,
@@ -14,6 +15,7 @@ import ErrorPage from "./error-page";
 import { useState } from "react";
 import { User } from "./models/user.model";
 import Basket, { loader as baksetLoader } from "./routes/basket";
+import Product from "./routes/product";
 
 const routerFn = (
   user: User | null,
@@ -59,6 +61,12 @@ const routerFn = (
       ),
       errorElement: <ErrorPage />,
       loader: user ? () => baksetLoader(user.id) : undefined,
+    },
+    {
+      path: "/product/:id",
+      element: <Product user={user} setUser={setUser} />,
+      errorElement: <ErrorPage />,
+      loader: undefined,
     },
   ]);
 

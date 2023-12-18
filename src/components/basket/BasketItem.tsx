@@ -2,10 +2,6 @@ import { useState } from "react";
 import { Product } from "../../models/product.model";
 import { useNavigate } from "react-router-dom";
 import GreenSucess from "../reusable/GreenSucess";
-import {
-  findRenderedDOMComponentWithClass,
-  scryRenderedDOMComponentsWithClass,
-} from "react-dom/test-utils";
 
 interface Types {
   item: Product;
@@ -29,11 +25,7 @@ export default function BasketItem({ item, index, userId }: Types) {
       } else {
         setIsSucess(false);
       }
-      navigate("/basket");
-      navigate("/");
-      navigate("/basket");
-      navigate("/");
-      navigate("/basket");
+      navigate("");
     }, 1 * 1000);
   }
 
@@ -54,15 +46,18 @@ export default function BasketItem({ item, index, userId }: Types) {
           }}
           className="delete-button"
         >
-          🗑️
+          Remove from basket
         </button>
       </div>
-      <GreenSucess
-        state={isSucess}
-        setState={setIsSucess}
-        message={"Removed successfully!"}
-        time={2}
-      />
+      <span className="message-container">
+        <GreenSucess
+          shouldNavigateToBasket={false}
+          state={isSucess}
+          setState={setIsSucess}
+          message={"Removed successfully!"}
+          time={5}
+        />
+      </span>
     </>
   );
 }

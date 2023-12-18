@@ -22,14 +22,23 @@ export default function BasketView({ basket, userId, setUser }: Types) {
         <h1>Basket</h1>
         <div className="header-buttons-container">
           <button onClick={() => navigate("/products")}>Home</button>
-          <button onClick={() => setUser(null)}>Logout</button>
+          <button className="logout" onClick={() => setUser(null)}>
+            <img
+              onClick={() => setUser(null)}
+              src="..\src\assets\logout.png"
+              alt="logout button"
+            />
+          </button>
         </div>
       </header>
       <div className="basket-items-container">
         {basket?.basketItems.length != 0 ? (
-          basket?.basketItems.map((item, index) => {
-            return <BasketItem userId={userId} item={item} index={index} />;
-          })
+          <>
+            {basket?.basketItems.map((item, index) => {
+              return <BasketItem userId={userId} item={item} index={index} />;
+            })}
+            <button onClick={() => navigate("/products")}>Back</button>
+          </>
         ) : (
           <div className="empty-basket-container">
             <p className="empty-basket">No items yet</p>

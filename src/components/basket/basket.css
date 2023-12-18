@@ -13,7 +13,7 @@
     min-width: 200px;
     width: -webkit-fill-available;
     align-items: center;
-    padding: 0 20px;
+    padding: 20px 20px;
     justify-content: space-around;
     flex-wrap: wrap;
     width: fit-content;
@@ -31,9 +31,11 @@
       border-radius: 15px;
     }
     .delete-button {
-      background-color: rgb(186, 0, 0);
-      border-style: solid;
-      border-color: rgb(93, 0, 0);
+      background-color: rgb(255, 143, 143);
+    }
+    .delete-button:hover {
+      background-color: rgb(255, 0, 0);
+      color: rgb(255, 255, 255);
     }
   }
 }
@@ -46,4 +48,8 @@
     text-align: center;
     font-size: 25px;
   }
+}
+
+.message-container {
+  margin: 15px;
 }

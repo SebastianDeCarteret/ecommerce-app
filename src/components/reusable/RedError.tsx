@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Types {
   setState: React.Dispatch<React.SetStateAction<boolean>>;
@@ -8,6 +8,7 @@ interface Types {
 }
 
 export default function RedError({ state, setState, message, time }: Types) {
+  const navigate = useNavigate();
   let timer: NodeJS.Timeout;
 
   if (state) {
@@ -19,6 +20,7 @@ export default function RedError({ state, setState, message, time }: Types) {
   return state ? (
     <div className="error-alert">
       <p>{message}</p>
+      <button onClick={() => navigate("/basket")}>Go to basket</button>
       <button
         onClick={() => {
           clearTimeout(timer);

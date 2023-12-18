@@ -38,11 +38,15 @@
       background-color: rgb(255, 226, 255);
       text-align: center;
     }
+    input:hover {
+      outline-style: solid;
+      outline-color: black;
+    }
     span {
       font-size: 15px;
     }
     button {
-      border-color: rgb(0, 0, 0);
+      /* border-color: rgb(0, 0, 0); */
       width: -webkit-fill-available;
       margin-top: 20px;
     }

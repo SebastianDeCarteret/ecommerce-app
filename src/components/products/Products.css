@@ -37,6 +37,11 @@
       width: -webkit-fill-available;
     }
   }
+  .colour-tag {
+    gap: 0;
+    margin: 0;
+    font-size: 13px;
+  }
 }
 
 .products-container {
