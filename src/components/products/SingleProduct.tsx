@@ -34,7 +34,12 @@ export default function SingleProduct({ product, index, user }: InputTypes) {
       <h1>{product.name}</h1>
       <img src={product.imageUrl} alt={product.name} />
       <p>
-        colour:<span className="colour-circle"></span>
+        colour:
+        <span
+          style={{ backgroundColor: product.colour }}
+          className="colour-circle"
+        ></span>
+        <p className="colour-tag">({product.colour.toLowerCase()})</p>
       </p>
       <h1>£{product.price}</h1>
       <div className="action-buttons">
