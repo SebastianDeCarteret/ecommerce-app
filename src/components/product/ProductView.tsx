@@ -57,10 +57,13 @@ export default function ProductView({ product, setUser, user }: Types) {
             />
           </button>
         </div>
+        <p>
+          {user?.firstName} {user?.lastName}
+        </p>
       </header>
       {product ? (
         <>
-          <p className="navigation-path">{`Home > ${product.name}`}</p>
+          <p className="navigation-path">{`Home > ${product.category.categoryType} > ${product.name}`}</p>
           <div className="item-flex-container">
             <div className="single-product-container single-page">
               <h1>{product.name}</h1>

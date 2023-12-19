@@ -55,7 +55,7 @@ const routerFn = (
     {
       path: "/basket",
       element: user ? (
-        <Basket setUser={setUser} userId={user.id} />
+        <Basket setUser={setUser} user={user} />
       ) : (
         <Navigate to="/" />
       ),

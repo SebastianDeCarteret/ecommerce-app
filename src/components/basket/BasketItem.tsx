@@ -2,20 +2,21 @@ import { useState } from "react";
 import { Product } from "../../models/product.model";
 import { useNavigate } from "react-router-dom";
 import GreenSucess from "../reusable/GreenSucess";
+import { User } from "../../models/user.model";
 
 interface Types {
   item: Product;
   index: number;
-  userId: number;
+  user: User;
 }
 
-export default function BasketItem({ item, index, userId }: Types) {
+export default function BasketItem({ item, index, user }: Types) {
   const [isSucess, setIsSucess] = useState<boolean>(false);
   const navigate = useNavigate();
   async function RemoveItem() {
     setTimeout(async () => {
       const response = fetch(
-        `https://localhost:7218/api/Baskets/${userId}/${item.id}`,
+        `https://localhost:7218/api/Baskets/${user.id}/${item.id}`,
         {
           method: "DELETE",
         }
@@ -32,13 +33,15 @@ export default function BasketItem({ item, index, userId }: Types) {
   return (
     <>
       <div key={index} className={isSucess ? "hide" : "basket-item"}>
-        <h2>{item.name}</h2>
-        <p>
-          colour:<span className="colour-circle"></span>
-        </p>
-        <p>{item.isInStock ? "in stock" : "out of stock"}</p>
-        <p>£{item.price}</p>
-        <img src={item.imageUrl} alt={item.name} />
+        <div className="basket-item-sub-container">
+          <h2>{item.name}</h2>
+          <p>
+            colour:<span className="colour-circle"></span>
+          </p>
+          <p>{item.isInStock ? "in stock" : "out of stock"}</p>
+          <p>£{item.price}</p>
+          <img src={item.imageUrl} alt={item.name} />
+        </div>
         <button
           onClick={() => {
             RemoveItem();

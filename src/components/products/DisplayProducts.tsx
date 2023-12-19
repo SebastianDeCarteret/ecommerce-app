@@ -40,6 +40,9 @@ export default function DisplayProducts({
             />
           </button>
         </div>
+        <p>
+          {user.firstName} {user.lastName}
+        </p>
       </header>
       <div className="products-container">
         {products.map((product: Product, index) => {

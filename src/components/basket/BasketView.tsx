@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 interface Types {
   basket: Basket | null;
-  userId: number;
+  user: User;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-export default function BasketView({ basket, userId, setUser }: Types) {
+export default function BasketView({ basket, user, setUser }: Types) {
   const navigate = useNavigate();
   return (
     <div className="basket-view">
@@ -30,12 +30,15 @@ export default function BasketView({ basket, userId, setUser }: Types) {
             />
           </button>
         </div>
+        <p>
+          {user.firstName} {user.lastName}
+        </p>
       </header>
       <div className="basket-items-container">
         {basket?.basketItems.length != 0 ? (
           <>
             {basket?.basketItems.map((item, index) => {
-              return <BasketItem userId={userId} item={item} index={index} />;
+              return <BasketItem user={user} item={item} index={index} />;
             })}
             <button onClick={() => navigate("/products")}>Back</button>
           </>

@@ -4,15 +4,15 @@ import BasketView from "../components/basket/BasketView";
 import { User } from "../models/user.model";
 
 interface Types {
-  userId: number;
+  user: User;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-export default function Basket({ userId, setUser }: Types) {
+export default function Basket({ user, setUser }: Types) {
   const { basket }: any = useLoaderData();
   return (
     <>
-      <BasketView setUser={setUser} userId={userId} basket={basket} />
+      <BasketView setUser={setUser} user={user} basket={basket} />
     </>
   );
 }
