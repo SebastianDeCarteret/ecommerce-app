@@ -64,7 +64,11 @@ const routerFn = (
     },
     {
       path: "/product/:id",
-      element: <Product user={user} setUser={setUser} />,
+      element: user ? (
+        <Product user={user} setUser={setUser} />
+      ) : (
+        <Navigate to="/" />
+      ),
       errorElement: <ErrorPage />,
       loader: undefined,
     },
