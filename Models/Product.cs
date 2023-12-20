@@ -27,6 +27,8 @@ namespace EcommerceBackend.Models
         public List<Review>? Reviews { get; set; }
         public Category? Category { get; set; }
 
+        public List<Order>? Orders { get; set; } = new();
+
         public List<Basket>? Baskets { get; set; } = new();
     }
 }

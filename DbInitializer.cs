@@ -45,7 +45,7 @@ namespace EcommerceBackend
                     Name = "TCL 50RP630K Roku TV 50\" Smart 4K Ultra HD HDR LED TV",
                     Colour = "black",
                     Description = "Get comfy, grab some snacks, and enjoy a movie night or the cup final with this TCL 4K TV. You'll love how good it all looks with HDR technology. Dolby Vision brings brighter brights, deeper darks, and a wider range of colours. With HDR10, every scene is perfectly framed with brilliant details and rich colours. Streaming your favourite shows is easy with Roku TV. With access to over 150,000 movies and TV shows from the likes of BBC iPlayer, Netflix, Prime Video, Apple TV, and NOW TV, you'll never be stuck for anything to watch again. Everything you need is on the home screen with quick customistable access to your favourite apps, live TV, and connected devices like games consoles.",
-                    Price = 8.99f,
+                    Price = 299.99f,
                     ImageUrl = "https://www.bing.com/th?id=OPE.5P%2bFyetx3JOcxw300C300&pid=21.1&w=142&h=142&qlt=100&dpr=1"
                 },
                 new Product
@@ -53,7 +53,7 @@ namespace EcommerceBackend
                     Name = "SAMSUNG Galaxy Book3 15.6\" Laptop - Intel® Core™ i5, 256 GB SSD, Graphite",
                     Colour = "grey",
                     Description = "Don't let the looks of the Galaxy Book 3 fool you. Hiding inside this ultra-thin and lightweight laptop is a powerful 13th gen Intel® Core™ i5 processor. Together with the Intel® Iris® Xe graphics, they can blow through productivity task, creative work and even gaming. Its 15.6\" Full HD screen is big, sharp and bright enough, so you can work comfortably wherever you are. And with up to 13 hours of battery life, you don't even need to worry about finding a plug.",
-                    Price = 109.99f,
+                    Price = 154.99f,
                     ImageUrl = "https://www.bing.com/th?id=OPE.ll1TyciK2rzTVQ300C300&pid=21.1&w=142&h=142&qlt=100&dpr=1"
                 }
             ]);
