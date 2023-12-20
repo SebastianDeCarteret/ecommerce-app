@@ -4,6 +4,7 @@ import "./components/login/Login.css";
 import "./components/basket/basket.css";
 import "./components/reusable/Reusable.css";
 import "./components/product/Product.css";
+import "./components/orders/Orders.css";
 import {
   Navigate,
   RouterProvider,
@@ -16,6 +17,7 @@ import { useState } from "react";
 import { User } from "./models/user.model";
 import Basket, { loader as baksetLoader } from "./routes/basket";
 import Product from "./routes/product";
+import Orders, { loader as ordersLoader } from "./routes/orders";
 
 const routerFn = (
   user: User | null,
@@ -71,6 +73,16 @@ const routerFn = (
       ),
       errorElement: <ErrorPage />,
       loader: undefined,
+    },
+    {
+      path: "/orders",
+      element: user ? (
+        <Orders user={user} setUser={setUser} />
+      ) : (
+        <Navigate to="/" />
+      ),
+      errorElement: <ErrorPage />,
+      loader: user ? () => ordersLoader(user?.id as number) : undefined,
     },
   ]);
 

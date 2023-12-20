@@ -49,6 +49,7 @@ export default function ProductView({ product, setUser, user }: Types) {
               alt="basket button"
             />
           </button>
+          <button onClick={() => navigate("/orders")}>Orders</button>
           <button className="logout" onClick={() => setUser(null)}>
             <img
               onClick={() => setUser(null)}
