@@ -3,20 +3,20 @@ import {
   LogoutOptions,
   RedirectLoginOptions,
   useAuth0,
+  User as Auth0User,
 } from "@auth0/auth0-react";
 import { Product } from "../../models/product.model";
 import { User } from "../../models/user.model";
 import SingleProduct from "./SingleProduct";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import * as Auth0 from "@auth0/auth0-react";
 
 interface InputTypes {
   products: Product[];
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   userAsState: User | null;
   auth0Container: {
-    user: Auth0.User | undefined;
+    user: Auth0User | undefined;
     isAuthenticated: boolean;
     loginWithRedirect: (
       options?: RedirectLoginOptions<AppState> | undefined
@@ -36,9 +36,10 @@ export default function DisplayProducts({
 
   useEffect(() => {
     getUserData();
-  }, [userAsState, user]);
+  }, [isAuthenticated]);
 
   async function getUserData() {
+    if (!isAuthenticated) return;
     const response = await fetch(
       `https://localhost:7218/api/Users/${user?.sub}`
     );

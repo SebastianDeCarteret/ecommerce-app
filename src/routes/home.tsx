@@ -6,14 +6,14 @@ import {
   AppState,
   LogoutOptions,
   RedirectLoginOptions,
+  User as Auth0User,
 } from "@auth0/auth0-react";
-import * as Auth0 from "@auth0/auth0-react";
 
 interface Types {
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   user: User | null;
   auth0Container: {
-    user: Auth0.User | undefined;
+    user: Auth0User | undefined;
     isAuthenticated: boolean;
     loginWithRedirect: (
       options?: RedirectLoginOptions<AppState> | undefined
