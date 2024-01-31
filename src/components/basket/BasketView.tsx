@@ -36,9 +36,10 @@ export default function BasketView({
 
   useEffect(() => {
     getUserData();
-  }, [userAsState, user]);
+  }, [isAuthenticated]);
 
   async function getUserData() {
+    if (!isAuthenticated) return;
     const response = await fetch(
       `https://localhost:7218/api/Users/${user?.sub}`
     );
