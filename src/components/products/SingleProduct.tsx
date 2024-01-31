@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 interface InputTypes {
   product: Product;
   index: number;
-  user: User;
+  user: User | null;
 }
 
 export default function SingleProduct({ product, index, user }: InputTypes) {
@@ -18,7 +18,7 @@ export default function SingleProduct({ product, index, user }: InputTypes) {
 
   async function AddToBasket() {
     const response = fetch(
-      `https://localhost:7218/api/Baskets/${user.id}/${product.id}`,
+      `https://localhost:7218/api/Baskets/${user!.id}/${product.id}`,
       {
         method: "PATCH",
       }
@@ -46,7 +46,11 @@ export default function SingleProduct({ product, index, user }: InputTypes) {
       </p>
       <h1>£{product.price}</h1>
       <div className="action-buttons">
-        <button onClick={AddToBasket}>Add to basket</button>
+        {user?.auth0Id ? (
+          <button onClick={AddToBasket}>Add to basket</button>
+        ) : (
+          <></>
+        )}
         <button onClick={() => navigate(`/product/${product.id}`)}>
           View details
         </button>

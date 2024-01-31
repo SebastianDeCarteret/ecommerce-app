@@ -3,6 +3,7 @@ import { Order } from "./order.model";
 
 export interface User {
   id: number;
+  auth0Id: string;
   firstName: string;
   lastName: string;
   username: string;

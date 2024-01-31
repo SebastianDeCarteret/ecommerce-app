@@ -18,6 +18,7 @@ import { User } from "./models/user.model";
 import Basket, { loader as baksetLoader } from "./routes/basket";
 import Product from "./routes/product";
 import Orders, { loader as ordersLoader } from "./routes/orders";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 const routerFn = (
   user: User | null,
@@ -26,61 +27,38 @@ const routerFn = (
   createBrowserRouter([
     {
       path: "/",
-      element: user ? (
-        <Navigate to="/products" replace={true} />
-      ) : (
-        <Navigate to="/login" replace={true} />
-      ),
+      element: <Navigate to="/products" replace={true} />,
+
       errorElement: <ErrorPage />,
       loader: user ? productsLoader : undefined,
     },
-    {
-      path: "/login",
-      element: user ? (
-        <Navigate to="/" replace={true} />
-      ) : (
-        <Login setUser={setUser} />
-      ),
-      errorElement: <ErrorPage />,
-      loader: user ? productsLoader : undefined,
-    },
+    // {
+    //   path: "/login",
+    //   element: <Login setUser={setUser} />,
+    //   errorElement: <ErrorPage />,
+    //   loader: user ? productsLoader : undefined,
+    // },
     {
       path: "/products",
-      element: user ? (
-        <Home user={user} setUser={setUser} />
-      ) : (
-        <Navigate to="/" />
-      ),
+      element: <Home user={user} setUser={setUser} />,
       errorElement: <ErrorPage />,
       loader: productsLoader,
     },
     {
       path: "/basket",
-      element: user ? (
-        <Basket setUser={setUser} user={user} />
-      ) : (
-        <Navigate to="/" />
-      ),
+      element: <Basket setUser={setUser} user={user} />,
       errorElement: <ErrorPage />,
       loader: user ? () => baksetLoader(user.id) : undefined,
     },
     {
       path: "/product/:id",
-      element: user ? (
-        <Product user={user} setUser={setUser} />
-      ) : (
-        <Navigate to="/" />
-      ),
+      element: <Product user={user} setUser={setUser} />,
       errorElement: <ErrorPage />,
       loader: undefined,
     },
     {
       path: "/orders",
-      element: user ? (
-        <Orders user={user} setUser={setUser} />
-      ) : (
-        <Navigate to="/" />
-      ),
+      element: <Orders user={user} setUser={setUser} />,
       errorElement: <ErrorPage />,
       loader: user ? () => ordersLoader(user?.id as number) : undefined,
     },
