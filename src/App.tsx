@@ -18,19 +18,35 @@ import { User } from "./models/user.model";
 import Basket, { loader as baksetLoader } from "./routes/basket";
 import Product from "./routes/product";
 import Orders, { loader as ordersLoader } from "./routes/orders";
-import { Auth0Provider } from "@auth0/auth0-react";
+import {
+  AppState,
+  Auth0Provider,
+  LogoutOptions,
+  RedirectLoginOptions,
+  useAuth0,
+} from "@auth0/auth0-react";
+import * as Auth0 from "@auth0/auth0-react";
 
-const routerFn = (
-  user: User | null,
-  setUser: React.Dispatch<React.SetStateAction<User | null>>
-) =>
+interface Types {
+  userAsState: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  auth0Container: {
+    user: Auth0.User | undefined;
+    isAuthenticated: boolean;
+    loginWithRedirect: (
+      options?: RedirectLoginOptions<AppState> | undefined
+    ) => Promise<void>;
+    logout: (options?: LogoutOptions | undefined) => Promise<void>;
+  };
+}
+
+const routerFn = ({ userAsState, setUser, auth0Container }: Types) =>
   createBrowserRouter([
     {
       path: "/",
       element: <Navigate to="/products" replace={true} />,
-
       errorElement: <ErrorPage />,
-      loader: user ? productsLoader : undefined,
+      loader: userAsState ? productsLoader : undefined,
     },
     // {
     //   path: "/login",
@@ -40,33 +56,54 @@ const routerFn = (
     // },
     {
       path: "/products",
-      element: <Home user={user} setUser={setUser} />,
+      element: (
+        <Home
+          user={userAsState}
+          setUser={setUser}
+          auth0Container={auth0Container}
+        />
+      ),
       errorElement: <ErrorPage />,
       loader: productsLoader,
     },
     {
       path: "/basket",
-      element: <Basket setUser={setUser} user={user} />,
+      element: (
+        <Basket
+          setUser={setUser}
+          user={userAsState}
+          auth0Container={auth0Container}
+        />
+      ),
       errorElement: <ErrorPage />,
-      loader: user ? () => baksetLoader(user.id) : undefined,
+      loader: userAsState ? () => baksetLoader(userAsState.id) : undefined,
     },
     {
       path: "/product/:id",
-      element: <Product user={user} setUser={setUser} />,
+      element: <Product user={userAsState} setUser={setUser} />,
       errorElement: <ErrorPage />,
       loader: undefined,
     },
     {
       path: "/orders",
-      element: <Orders user={user} setUser={setUser} />,
+      element: <Orders user={userAsState} setUser={setUser} />,
       errorElement: <ErrorPage />,
-      loader: user ? () => ordersLoader(user?.id as number) : undefined,
+      loader: userAsState
+        ? () => ordersLoader(userAsState?.id as number)
+        : undefined,
     },
   ]);
 
 function App() {
-  const [user, setUser] = useState<User | null>(null);
-  const routes = routerFn(user, setUser);
+  const [userAsState, setUser] = useState<User | null>(null);
+  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const auth0Container = {
+    user: user,
+    isAuthenticated: isAuthenticated,
+    loginWithRedirect: loginWithRedirect,
+    logout: logout,
+  };
+  const routes = routerFn({ userAsState, setUser, auth0Container });
   return <RouterProvider router={routes} />;
 }
 

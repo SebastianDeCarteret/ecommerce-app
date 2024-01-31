@@ -4,7 +4,7 @@ import { User } from "../models/user.model";
 import OrdersView from "../components/orders/OrdersView";
 
 interface Types {
-  user: User;
+  user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 

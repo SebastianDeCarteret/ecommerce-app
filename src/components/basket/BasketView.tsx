@@ -1,22 +1,56 @@
+import { useEffect } from "react";
 import { Basket } from "../../models/basket.model";
 import { User } from "../../models/user.model";
 import BasketItem from "./BasketItem";
 import { useNavigate } from "react-router-dom";
+import {
+  AppState,
+  LogoutOptions,
+  RedirectLoginOptions,
+} from "@auth0/auth0-react";
+import * as Auth0 from "@auth0/auth0-react";
 
 interface Types {
   basket: Basket | null;
-  user: User;
+  userAsState: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  auth0Container: {
+    user: Auth0.User | undefined;
+    isAuthenticated: boolean;
+    loginWithRedirect: (
+      options?: RedirectLoginOptions<AppState> | undefined
+    ) => Promise<void>;
+    logout: (options?: LogoutOptions | undefined) => Promise<void>;
+  };
 }
 
-export default function BasketView({ basket, user, setUser }: Types) {
+export default function BasketView({
+  basket,
+  userAsState,
+  setUser,
+  auth0Container,
+}: Types) {
   const navigate = useNavigate();
+
+  const { user, isAuthenticated, loginWithRedirect, logout } = auth0Container;
+
+  useEffect(() => {
+    getUserData();
+  }, [userAsState, user]);
+
+  async function getUserData() {
+    const response = await fetch(
+      `https://localhost:7218/api/Users/${user?.sub}`
+    );
+    const dbUser = (await response.json()) as User;
+    setUser(dbUser);
+  }
 
   let ids: number[] = [];
 
   async function Checkout() {
     const response = await fetch(
-      `https://localhost:7218/api/Orders/add/order/user/${user.id}`,
+      `https://localhost:7218/api/Orders/add/order/user/${userAsState?.id}`,
       {
         method: "PATCH",
         body: JSON.stringify(ids),
@@ -32,9 +66,12 @@ export default function BasketView({ basket, user, setUser }: Types) {
 
   async function RemoveItem() {
     ids.forEach(async (id) => {
-      await fetch(`https://localhost:7218/api/Baskets/${user.id}/${id}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `https://localhost:7218/api/Baskets/${userAsState?.id}/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
     });
   }
 
@@ -59,7 +96,7 @@ export default function BasketView({ basket, user, setUser }: Types) {
           </button>
         </div>
         <p>
-          {user.firstName} {user.lastName}
+          {user?.firstName} {user?.lastName}
         </p>
       </header>
       <div className="basket-items-container">
@@ -67,7 +104,13 @@ export default function BasketView({ basket, user, setUser }: Types) {
           <>
             {basket?.basketItems.map((item, index) => {
               ids.push(item.id);
-              return <BasketItem user={user} item={item} index={index} />;
+              return (
+                <BasketItem
+                  userAsState={userAsState}
+                  item={item}
+                  index={index}
+                />
+              );
             })}
             <button onClick={Checkout}>Checkout</button>
             <button onClick={() => navigate("/products")}>Back</button>

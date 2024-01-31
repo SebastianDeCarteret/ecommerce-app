@@ -7,16 +7,16 @@ import { User } from "../../models/user.model";
 interface Types {
   item: Product;
   index: number;
-  user: User;
+  userAsState: User | null;
 }
 
-export default function BasketItem({ item, index, user }: Types) {
+export default function BasketItem({ item, index, userAsState }: Types) {
   const [isSucess, setIsSucess] = useState<boolean>(false);
   const navigate = useNavigate();
   async function RemoveItem() {
     setTimeout(async () => {
       const response = fetch(
-        `https://localhost:7218/api/Baskets/${user.id}/${item.id}`,
+        `https://localhost:7218/api/Baskets/${userAsState?.id}/${item.id}`,
         {
           method: "DELETE",
         }

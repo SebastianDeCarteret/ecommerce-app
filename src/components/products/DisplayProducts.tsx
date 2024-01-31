@@ -1,33 +1,44 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import {
+  AppState,
+  LogoutOptions,
+  RedirectLoginOptions,
+  useAuth0,
+} from "@auth0/auth0-react";
 import { Product } from "../../models/product.model";
 import { User } from "../../models/user.model";
 import SingleProduct from "./SingleProduct";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import * as Auth0 from "@auth0/auth0-react";
 
 interface InputTypes {
   products: Product[];
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   userAsState: User | null;
+  auth0Container: {
+    user: Auth0.User | undefined;
+    isAuthenticated: boolean;
+    loginWithRedirect: (
+      options?: RedirectLoginOptions<AppState> | undefined
+    ) => Promise<void>;
+    logout: (options?: LogoutOptions | undefined) => Promise<void>;
+  };
 }
 
 export default function DisplayProducts({
   products,
   setUser,
   userAsState,
+  auth0Container,
 }: InputTypes) {
   const navigate = useNavigate();
-  const { user, isAuthenticated, loginWithRedirect, isLoading, error, logout } =
-    useAuth0();
+  const { user, isAuthenticated, loginWithRedirect, logout } = auth0Container;
 
   useEffect(() => {
     getUserData();
   }, [userAsState, user]);
 
-  console.log(user);
-  // setUser(get user by sub)
   async function getUserData() {
-    // await loginWithRedirect();
     const response = await fetch(
       `https://localhost:7218/api/Users/${user?.sub}`
     );

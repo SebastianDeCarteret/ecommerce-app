@@ -5,7 +5,7 @@ import SingleOrder from "./SingleOrder";
 
 interface Types {
   orders: Order[];
-  user: User;
+  user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
@@ -39,7 +39,7 @@ export default function OrdersView({ orders, user, setUser }: Types) {
           </button>
         </div>
         <p>
-          {user.firstName} {user.lastName}
+          {user?.firstName} {user?.lastName}
         </p>
       </header>
       <div className="orders-container">
