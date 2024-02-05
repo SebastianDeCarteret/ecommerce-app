@@ -13,9 +13,9 @@ import {
 import Login from "./routes/login";
 import Home, { loader as productsLoader } from "./routes/home";
 import ErrorPage from "./error-page";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { User } from "./models/user.model";
-import Basket, { loader as baksetLoader } from "./routes/basket";
+import Basket from "./routes/basket";
 import Product from "./routes/product";
 import Orders, { loader as ordersLoader } from "./routes/orders";
 import {
@@ -37,6 +37,7 @@ interface Types {
       options?: RedirectLoginOptions<AppState> | undefined
     ) => Promise<void>;
     logout: (options?: LogoutOptions | undefined) => Promise<void>;
+    isLoading: boolean;
   };
 }
 
@@ -76,7 +77,6 @@ const routerFn = ({ userAsState, setUser, auth0Container }: Types) =>
         />
       ),
       errorElement: <ErrorPage />,
-      loader: userAsState ? () => baksetLoader(userAsState.id) : undefined,
     },
     {
       path: "/product/:id",
@@ -96,14 +96,30 @@ const routerFn = ({ userAsState, setUser, auth0Container }: Types) =>
 
 function App() {
   const [userAsState, setUser] = useState<User | null>(null);
-  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect, logout, isLoading } =
+    useAuth0();
   const auth0Container = {
     user: user,
     isAuthenticated: isAuthenticated,
     loginWithRedirect: loginWithRedirect,
     logout: logout,
+    isLoading: isLoading,
   };
   const routes = routerFn({ userAsState, setUser, auth0Container });
+
+  useEffect(() => {
+    getUserData();
+  }, [isAuthenticated]);
+
+  async function getUserData() {
+    if (!isAuthenticated) return;
+    const response = await fetch(
+      `https://localhost:7218/api/Users/${user?.sub}`
+    );
+    const dbUser = (await response.json()) as User;
+    setUser(dbUser);
+  }
+
   return <RouterProvider router={routes} />;
 }
 

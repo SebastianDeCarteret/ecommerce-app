@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Basket } from "../../models/basket.model";
 import { User } from "../../models/user.model";
 import BasketItem from "./BasketItem";
@@ -11,7 +11,7 @@ import {
 import * as Auth0 from "@auth0/auth0-react";
 
 interface Types {
-  basket: Basket | null;
+  // basket: Basket | null;
   userAsState: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   auth0Container: {
@@ -25,26 +25,27 @@ interface Types {
 }
 
 export default function BasketView({
-  basket,
+  // basket,
   userAsState,
   setUser,
   auth0Container,
 }: Types) {
   const navigate = useNavigate();
 
-  const { user, isAuthenticated, loginWithRedirect, logout } = auth0Container;
+  const [basket, setBasket] = useState<Basket | null>(null);
 
   useEffect(() => {
-    getUserData();
-  }, [isAuthenticated]);
+    loader();
+  }, [userAsState]);
 
-  async function getUserData() {
-    if (!isAuthenticated) return;
-    const response = await fetch(
-      `https://localhost:7218/api/Users/${user?.sub}`
-    );
-    const dbUser = (await response.json()) as User;
-    setUser(dbUser);
+  async function loader() {
+    if (userAsState) {
+      const response = await fetch(
+        `https://localhost:7218/api/Baskets/${userAsState?.basket.id}`
+      );
+      const basketRes = (await response.json()) as Basket;
+      setBasket(basketRes);
+    }
   }
 
   let ids: number[] = [];
@@ -96,33 +97,44 @@ export default function BasketView({
             />
           </button>
         </div>
-        <p>
-          {user?.firstName} {user?.lastName}
-        </p>
+        {userAsState?.firstName || userAsState?.lastName ? (
+          <p>
+            {userAsState?.firstName ? userAsState.firstName : "loading..."}{" "}
+            {userAsState?.lastName}
+          </p>
+        ) : (
+          <p>Loading...</p>
+        )}
       </header>
       <div className="basket-items-container">
-        {basket?.basketItems.length != 0 ? (
+        {basket?.basketItems ? (
           <>
-            {basket?.basketItems.map((item, index) => {
-              ids.push(item.id);
-              return (
-                <BasketItem
-                  userAsState={userAsState}
-                  item={item}
-                  index={index}
-                />
-              );
-            })}
-            <button onClick={Checkout}>Checkout</button>
-            <button onClick={() => navigate("/products")}>Back</button>
+            {basket?.basketItems.length == 0 ? (
+              <>
+                {basket?.basketItems.map((item, index) => {
+                  ids.push(item.id);
+                  return (
+                    <BasketItem
+                      userAsState={userAsState}
+                      item={item}
+                      index={index}
+                    />
+                  );
+                })}
+                <button onClick={Checkout}>Checkout</button>
+                <button onClick={() => navigate("/products")}>Back</button>
+              </>
+            ) : (
+              <div className="empty-basket-container">
+                <p className="empty-basket">No items yet</p>
+                <button onClick={() => navigate("/products")}>
+                  Start shopping
+                </button>
+              </div>
+            )}
           </>
         ) : (
-          <div className="empty-basket-container">
-            <p className="empty-basket">No items yet</p>
-            <button onClick={() => navigate("/products")}>
-              Start shopping
-            </button>
-          </div>
+          <p>Loading...</p>
         )}
       </div>
     </div>

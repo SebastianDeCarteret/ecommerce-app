@@ -34,18 +34,18 @@ export default function DisplayProducts({
   const navigate = useNavigate();
   const { user, isAuthenticated, loginWithRedirect, logout } = auth0Container;
 
-  useEffect(() => {
-    getUserData();
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   getUserData();
+  // }, [isAuthenticated]);
 
-  async function getUserData() {
-    if (!isAuthenticated) return;
-    const response = await fetch(
-      `https://localhost:7218/api/Users/${user?.sub}`
-    );
-    const dbUser = (await response.json()) as User;
-    setUser(dbUser);
-  }
+  // async function getUserData() {
+  //   if (!isAuthenticated) return;
+  //   const response = await fetch(
+  //     `https://localhost:7218/api/Users/${user?.sub}`
+  //   );
+  //   const dbUser = (await response.json()) as User;
+  //   setUser(dbUser);
+  // }
 
   return (
     <>
@@ -91,13 +91,13 @@ export default function DisplayProducts({
                 className="logout"
                 onClick={() => {
                   loginWithRedirect();
-                  getUserData();
+                  // getUserData();
                 }}
               >
                 <img
                   onClick={() => {
                     loginWithRedirect();
-                    getUserData();
+                    // getUserData();
                   }}
                   src="..\src\assets\logout.png"
                   alt="logout button"
